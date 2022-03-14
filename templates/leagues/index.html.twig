@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+{% block title %}Hello LeaguesController!{% endblock %}
+{% block body %}
+
+    <section class="container">
+
+        <div class="sidebar-search">
+            search a team
+            <div class="input-group custom-search-form">
+                <input type="text" id="search" class="form-control" placeholder="Paris...">
+            </div>
+            <!-- /input-group -->
+        </div>
+        <ul class="nav" id="side-menu">
+            <li>
+                <ul class="dropdown-menu nav nav-second-level" aria-labelledby="navbarDropdown" id="entitiesNav">
+                </ul>
+            </li>
+        </ul>
+
+        <ul id='foot-tab' class="task-items">
+            {% for team in teams %}
+                {{ team.id }}
+
+                <li class="item alert alert-primary" data-bs-toggle="collapse" href="#collapse{{ loop.index }}"
+                    role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <div class="col-2 text-center">
+                        <img src="{{ team.teamHome.logo }}" class="owner-img" width="50px"/>
+                    </div>
+                    <div class="col-2 text-center">
+                        <div class="name" style="width:150px"> {{ team.teamHome.name }}</div>
+                    </div>
+
+                    <div class="col-2 text-center">
+                        <div class="bar"> {{ team.goalsTeamHome }} </div>
+                    </div>
+                    <div class="col-2 text-center">
+                        <div class="bar"> {{ team.goalsTeamAway }} </div>
+                    </div>
+
+                    <div class="col-2 text-center">
+                        <div class="name" style="width:150px"> {{ team.teamAway.name }}</div>
+                    </div>
+                    <div class="col-2 text-center">
+                        <img src="{{ team.teamAway.logo }}" class="owner-img" width="50px"/>
+                    </div>
+                </li>
+                <div class="collapse" id="collapse{{ loop.index }}">
+                    <div class="card card-body">
+                        Some placeholder content for the collapse component. This panel is hidden by default but
+                        revealed when the user activates the relevant trigger.
+                    </div>
+                </div>
+{#                </div>#}
+            {% endfor %}
+
+        </ul>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var searchRequest = null;
+        $("#search").keyup(function() {
+            var minlength = 3;
+            var that = this;
+            var value = $(this).val();
+            var entitySelector = $("#entitiesNav").html('');
+            if (value.length >= minlength ) {
+                if (searchRequest != null)
+                    searchRequest.abort();
+                searchRequest = $.ajax({
+                    type: "GET",
+                    url: "{{ path('ajax_search') }}",
+                    data: {
+                        'q' : value
+                    },
+                    dataType: "text",
+                    success: function(msg){
+                        //we need to check if the value is the same
+                        if (value==$(that).val()) {
+                            var result = JSON.parse(msg);
+                            // console.log(msg);
+                            $.each(result, function(key, arr) {
+
+                                $.each(arr, function(id, value) {
+
+                                    if (key == 'entities') {
+                                        if (id != 'error') {
+                                            entitySelector.append(' <a class="dropdown-item"  href="leagues/team/'+id+'">'+value+'</a> ');
+                                        } else {
+                                            entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

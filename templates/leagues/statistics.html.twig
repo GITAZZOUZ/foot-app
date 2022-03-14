@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% block title %}Statistcs !{% endblock %}
+{% block body %}
+    <section class="container">
+        <ul id='foot-tab' class="task-items">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    {% for key, value in teams %}
+                        <th scope="col">{{ key }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">home</th>
+                    {% for key, value in teams %}
+                        <td>{{ value.home }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th scope="row">away</th>
+                    {% for key, value in teams %}
+                        <td>{{ value.away }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th scope="row">total</th>
+                    {% for key, value in teams %}
+                        <td>{{ value.total }}</td>
+                    {% endfor %}
+                </tr>
+                </tbody>
+            </table>
+        </ul>
+    </section>
+{% endblock %}

@@ -1,0 +1,8 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+ajax_search:
+  path: /leagues/search
+  controller: App\Controller\LeaguesController::search
+  options:
+    expose: true
