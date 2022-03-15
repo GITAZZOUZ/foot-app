@@ -15,13 +15,7 @@ class ClientFoot
     protected $host = '';
     protected $guzzleHttpClient = null;
     protected $response = [];
-    /**
-     * @var $params ['org_id' => 3524 ,'country' => 'FR','page' => 1,'per_page' => 30]
-     */
     protected $params = ['league' => 10 ,'season'=>2019 ];
-//    protected $searchParams = ['league' => 10 ,'season'=>2019 ];
-
-//    protected $params = ['country' => 'france' ];
 
     public function __construct($host, $key)
     {
@@ -39,12 +33,12 @@ class ClientFoot
     {
 
         try {
-//            $response = $this->guzzleHttpClient->request('GET', 'https://v3.football.api-sports.io/fixtures',
-//                [
-//                    'query' => $this->params,
-//                ]
-//            );
-           // $this->response = json_decode($response->getContent(), true);
+/*            $response = $this->guzzleHttpClient->request('GET', 'https://v3.football.api-sports.io/fixtures',
+                [
+                    'query' => $this->params,
+                ]
+            );
+            $this->response = json_decode($response->getContent(), true);*/
             $json = file_get_contents('./leagues.json');
             $sites = json_decode($json, true);
             foreach ($sites['response'] as $fixtrures ){
@@ -80,12 +74,12 @@ class ClientFoot
     {
 
         try {
-//            $response = $this->guzzleHttpClient->request('GET', 'https://v3.football.api-sports.io/teams',
-//                [
-//                    'search' => $requestString,
-//                ]
-//            );
-            // $this->response = json_decode($response->getContent(), true);
+/*            $response = $this->guzzleHttpClient->request('GET', 'https://v3.football.api-sports.io/teams',
+                [
+                    'search' => $requestString,
+                ]
+            );
+             $this->response = json_decode($response->getContent(), true);*/
             $json = file_get_contents('./teams.json');
             $sites = json_decode($json, true);
             foreach ($sites['response'] as $team ){
@@ -113,13 +107,13 @@ class ClientFoot
     {
 
         try {
-//            $response = $this->guzzleHttpClient->request('GET', 'https://v3.football.api-sports.io/teams/statistics',
-//                [
-//                    'team' => $id,
-//                    'league' => 10,
-//                ]
-//            );
-            // $this->response = json_decode($response->getContent(), true);
+/*            $response = $this->guzzleHttpClient->request('GET', 'https://v3.football.api-sports.io/teams/statistics',
+                [
+                    'team' => $id,
+                    'league' => 10,
+                ]
+            );
+             $this->response = json_decode($response->getContent(), true);*/
             $json = file_get_contents('./statistics.json');
             $sites = json_decode($json, true);
 
